@@ -1,0 +1,8 @@
+Line Chart
+==========
+
+Dependencies
+------------
+
+- node
+
