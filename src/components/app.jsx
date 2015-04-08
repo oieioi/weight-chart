@@ -1,5 +1,10 @@
 import {Line} from 'react-chartjs';
 import React from 'react/addons';
+import ma from './moving-average';
+
+console.log(ma([10, 12, 15, 20, 30, 20, 10, 12, 11], 3));
+console.log(ma([10, 12, 15, 20, 30, 20, 10, 12, 11], 4));
+console.log(ma([10, 12, 15, 20, 30, 20, 10, 12, 11], 5));
 
 export default React.createClass({
   mixins: [React.addons.LinkedStateMixin],
