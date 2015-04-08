@@ -6,7 +6,7 @@ export default React.createClass({
   getInitialState(){
     return {
       data: {
-        labels: [],
+        labels: ['item:1', 'item:2', 'item:3'],
         datasets: [
           {
             label: "My First dataset",
@@ -16,25 +16,47 @@ export default React.createClass({
             pointStrokeColor: "#fff",
             pointHighlightFill: "#fff",
             pointHighlightStroke: "rgba(220,220,220,1)",
-            data: []
+            data: [1, 2, 3]
           }
         ]
       }
     };
   },
 
+  count: 4,
+
   componentDidMount() {
-    this.state.data.labels.push('hoge');
-    this.state.data.datasets[0].data.push(2);
-    this.state.data.labels.push('fuga');
-    this.state.data.datasets[0].data.push(12);
-    this.state.data.labels.push('bar');
-    this.state.data.datasets[0].data.push(7);
+    setInterval(() => {
+      var newItem = this.state.data.datasets.slice();
+      var labels = this.state.data.labels.slice();
+      var rand = Math.floor(Math.random() * 20);
+      labels.push('item:' + this.count++);
+      newItem[0].data.push(rand);
+
+      this.setState({
+        data:{
+          labels: labels,
+          datasets: newItem
+        }
+      });
+    }, 2000);
+
   },
 
   render() {
+
+    var options = {
+      animation: false
+    };
+
     return (
-      <Line data={this.state.data} width="400" height="400" redraw/>
+      <Line
+        data={this.state.data}
+        options={options}
+        width="400"
+        height="400"
+        redraw
+      />
     );
   }
 });
