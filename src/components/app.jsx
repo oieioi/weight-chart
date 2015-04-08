@@ -1,11 +1,18 @@
 import {Line} from 'react-chartjs';
-import React from 'react';
+import React from 'react/addons';
 
 export default React.createClass({
+  mixins: [React.addons.LinkedStateMixin],
 
   getInitialState(){
     return {
-      value: '',
+      value: `d1,2
+d2,10
+d3,
+d4,11
+d5,5`,
+      width: 401,
+      height: 300,
       data: {
         labels: [],
         datasets: [
@@ -37,17 +44,11 @@ export default React.createClass({
 
   setData({data, date}) {
 
-    if(!data || !date){
-      void 0;
-      // return;
-    }
-
     var labels = this.state.data.labels;
     labels.push(date);
 
     var newItem = this.state.data.datasets;
     newItem[0].data.push(+data || null);
-    console.log(newItem[0].data);
 
     this.setState({
       data:{
@@ -56,12 +57,6 @@ export default React.createClass({
       }
     });
 
-  },
-
-  handleChange(event){
-    this.setState({
-      value: event.target.value
-    });
   },
 
   parseCsv(str, header){
@@ -80,26 +75,37 @@ export default React.createClass({
   },
 
   render(){
-
     var options = {
-      animation: false
+      animation: false,
+      pointDot: false
     };
-
-    var value = this.state.value;
 
     return (
       <div>
+        <div>
+          <label>width: <input type="text" valueLink={this.linkState('width')} /></label>
+          <label>height: <input type="text" valueLink={this.linkState('height')} /></label>
+        </div>
         <Line
           data={this.state.data}
           options={options}
-          width="800"
-          height="400"
+          width={this.state.width}
+          height={this.state.height}
           redraw
         />
-        <textarea value={value} onChange={this.handleChange} />
+        <div>
+        <label> csv:
+          <textarea
+            rows="5"
+            cols="20"
+            valueLink={this.linkState('value')}
+            >
+          </textarea>
+        </label>
         <button onClick={this.pushItem}>push</button>
         <button onClick={this.resetData}>reset</button>
       </div>
+    </div>
     );
   }
 });
