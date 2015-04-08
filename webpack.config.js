@@ -1,7 +1,7 @@
 module.exports = {
   entry: './src/components/main.jsx',
   output: {
-    filename: './build/main.js'
+    filename: 'main.js'
   },
   devtool: 'inline-source-map',
   module: {
@@ -15,7 +15,7 @@ module.exports = {
       '',
       '.js',
       '.jsx',
-      '.css',
+      '.css'
     ]
   }
 };

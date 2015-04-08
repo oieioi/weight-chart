@@ -1,9 +1,9 @@
 var gulp = require('gulp');
 var webpack = require('gulp-webpack');
-var watch = require('gulp-watch');
 var server = require('gulp-express');
 var webpackConfig = require('./webpack.config.js');
 var eslint = require('gulp-eslint');
+
 
 gulp.task('clean', function(cb){
   var rimraf = require('rimraf');
@@ -18,11 +18,17 @@ gulp.task('copyIndex', ['clean'], function(){
 gulp.task('build', ['copyIndex'], function(){
   return gulp.src('')
   .pipe(webpack(webpackConfig))
-  .pipe(gulp.dest(''));
+  .pipe(gulp.dest('./build/'));
+});
+
+gulp.task('lint', function(cb){
+  gulp.src('./src/**/*.jsx')
+  .pipe(eslint());
+  cb();
 });
 
 gulp.task('watch', function(){
-  return gulp.watch('./src/**/*', ['lint', 'build']);
+  gulp.watch('./src/**/*.jsx', {debounceDelay: 2000}, ['lint', 'build']);
 });
 
 gulp.task('server', function(){
@@ -31,13 +37,5 @@ gulp.task('server', function(){
   });
   return server.run(['./server/app.js']);
 });
-
-gulp.task('lint', function(){
-  return gulp.src(['./src/**/*.jsx'])
-  .pipe(eslint())
-  .pipe(eslint.format())
-  .pipe(eslint.failOnError());
-});
-
 
 gulp.task('default', ['build', 'server', 'watch']);
