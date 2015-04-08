@@ -13,7 +13,9 @@ export default function ma(arr, n){
       divisor = index + 1;
     }
 
-    var sum = ar.slice(sliceFront, index + 1).reduce((p, c)=> p + c);
+    // TODO when value is null
+    var sum = ar.slice(sliceFront, index + 1)
+      .reduce((p, c)=> p + c);
     console.log(index, 'ar', sliceFront, '-', index + 1, ',sum:', sum, ', divisor:', divisor, 'average:', sum / divisor);
     return sum / divisor;
   });
