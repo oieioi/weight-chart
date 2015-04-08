@@ -1,5 +1,6 @@
 import {Line} from 'react-chartjs';
 import React from 'react/addons';
+import ma from './moving-average';
 
 export default React.createClass({
   mixins: [React.addons.LinkedStateMixin],
@@ -13,6 +14,7 @@ d4,11
 d5,5`,
       width: 401,
       height: 300,
+      per: 31,
       data: {
         labels: [],
         datasets: [
@@ -25,6 +27,16 @@ d5,5`,
             pointHighlightFill: "#fff",
             pointHighlightStroke: "rgba(220,220,220,1)",
             data: []
+          },
+          {
+            label: "moving average",
+            fillColor: "rgba(220,220,220,0.2)",
+            strokeColor: "rgba(220,220,220,1)",
+            pointColor: "rgba(220,220,220,1)",
+            pointStrokeColor: "#f0f",
+            pointHighlightFill: "#f0f",
+            pointHighlightStroke: "rgba(220,220,220,1)",
+            data: []
           }
         ]
       }
@@ -34,6 +46,7 @@ d5,5`,
   resetData() {
     var newItem = this.state.data.datasets.slice();
     newItem[0].data = [];
+    newItem[1].data = [];
     this.setState({
       data:{
         labels: [],
@@ -74,6 +87,19 @@ d5,5`,
     datas.forEach((d)=>this.setData(d));
   },
 
+  setAverage(){
+    var newItem = this.state.data.datasets;
+    var aves = ma(newItem[0].data, this.state.per);
+    newItem[1].data = aves;
+
+    this.setState({
+      data:{
+        labels: this.state.data.labels,
+        datasets: newItem
+      }
+    });
+  },
+
   render(){
     var options = {
       animation: false,
@@ -104,6 +130,8 @@ d5,5`,
         </label>
         <button onClick={this.pushItem}>push</button>
         <button onClick={this.resetData}>reset</button>
+        <label>per: <input type="text" valueLink={this.linkState('per')} /></label>
+        <button onClick={this.setAverage}>ave</button>
       </div>
     </div>
     );
