@@ -7,14 +7,26 @@ export default React.createClass({
 
   getInitialState(){
     return {
-      value: `d1,2
-d2,10
-d3,
-d4,11
-d5,5`,
-      width: 401,
-      height: 300,
-      per: 31,
+      value: [
+        'f1,2',
+        'f2,',
+        'f3,4',
+        'f3,',
+        'f4,20',
+        'f5,',
+        'f6,',
+        'f7,2',
+        'f8,8',
+        'f9,7',
+        'f11,9',
+        'f12,7',
+        'f13,',
+        'f14,4',
+        'f15,'
+      ].join('\n'),
+      width: 1200,
+      height: 500,
+      per: 7,
       data: {
         labels: [],
         datasets: [
@@ -30,9 +42,9 @@ d5,5`,
           },
           {
             label: "moving average",
-            fillColor: "rgba(220,220,220,0.2)",
-            strokeColor: "rgba(220,220,220,1)",
-            pointColor: "rgba(220,220,220,1)",
+            fillColor: "rgba(20,220,220,0.2)",
+            strokeColor: "rgba(20,220,220,1)",
+            pointColor: "rgba(20,220,220,1)",
             pointStrokeColor: "#f0f",
             pointHighlightFill: "#f0f",
             pointHighlightStroke: "rgba(220,220,220,1)",
@@ -103,7 +115,7 @@ d5,5`,
   render(){
     var options = {
       animation: false,
-      pointDot: false
+      pointDot: true
     };
 
     return (
@@ -112,27 +124,31 @@ d5,5`,
           <label>width: <input type="text" valueLink={this.linkState('width')} /></label>
           <label>height: <input type="text" valueLink={this.linkState('height')} /></label>
         </div>
-        <Line
-          data={this.state.data}
-          options={options}
-          width={this.state.width}
-          height={this.state.height}
-          redraw
-        />
         <div>
-        <label> csv:
-          <textarea
-            rows="5"
-            cols="20"
-            valueLink={this.linkState('value')}
-            >
-          </textarea>
-        </label>
-        <button onClick={this.pushItem}>push</button>
-        <button onClick={this.resetData}>reset</button>
-        <label>per: <input type="text" valueLink={this.linkState('per')} /></label>
-        <button onClick={this.setAverage}>ave</button>
-      </div>
+          <Line
+            data={this.state.data}
+            options={options}
+            width={this.state.width}
+            height={this.state.height}
+            redraw
+          />
+        </div>
+        <div>
+          <label> csv:
+            <textarea
+              rows="5"
+              cols="20"
+              valueLink={this.linkState('value')}
+              >
+            </textarea>
+          </label>
+          <button onClick={this.pushItem}>push</button>
+          <button onClick={this.resetData}>reset</button>
+          <div>
+            <label>per: <input type="text" valueLink={this.linkState('per')} /></label>
+            <button onClick={this.setAverage}>average</button>
+          </div>
+        </div>
     </div>
     );
   }
