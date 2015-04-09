@@ -1,8 +1,6 @@
-
 // usege
-// ma = require('./moving-average');
-// ma([1,2,3,4,5,6,7,8,9,10], 3)
-
+// var ma = require('./moving-average');
+// ma([1,2,3,4,5,6,7,8,9,10], 2); // -> [1, 1.5, 2.5, 3,5, 4.5, 5,5, 6.5, 7.5, 8.5, 9.5]
 export default function ma(arr, n){
   return arr.map((item, index, ar)=> {
     var sliceFront = index - n + 1;
@@ -13,12 +11,19 @@ export default function ma(arr, n){
       divisor = index + 1;
     }
 
-    // TODO when value is null
     var sum = ar.slice(sliceFront, index + 1)
-      .reduce((p, c)=> p + c);
-    console.log(index, 'ar', sliceFront, '-', index + 1, ',sum:', sum, ', divisor:', divisor, 'average:', sum / divisor);
+      .reduce((p, c)=> {
+        if (c === null) {
+          divisor--;
+        }
+
+        return p + c;
+      }, 0);
+
+    if (divisor < 0) {
+      return null;
+    }
+
     return sum / divisor;
   });
 }
-
-//console.log(ma([10, 12, 15, 20, 30, 20, 10, 12, 11], 4));
