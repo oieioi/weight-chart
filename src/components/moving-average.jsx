@@ -20,7 +20,7 @@ export default function ma(arr, n){
         return p + c;
       }, 0);
 
-    if (divisor < 0) {
+    if (divisor < 1) {
       return null;
     }
 
