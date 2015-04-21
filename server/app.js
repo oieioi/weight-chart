@@ -1,9 +1,26 @@
 var express = require('express');
-var mongoose = require('mongoose');
 var app = module.exports.app = exports.app = express();
+
+
+app.post('/api/bulk', function(req, res){
+  console.log('POST');
+  res.end();
+});
+
+app.get('/api/bulk/:id', function(req, res){
+  console.log('GET:' + req.params.id);
+  res.end();
+});
+
+app.put('/api/bulk/:id', function(req, res){
+  console.log('PUT:' + req.params.id);
+  res.end();
+});
+
 
 // static files
 app.use('/', express.static('build'));
+
 
 // API
 
