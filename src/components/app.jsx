@@ -190,9 +190,11 @@ export default React.createClass({
           </div>
           <div>
             <label>hash: <input type="text" valueLink={this.linkState('hash')} /></label>
-            <button onClick={this.createData}>create</button>
             <button onClick={this.updateData}>update</button>
             <button onClick={this.fetchData}>fetch</button>
+          </div>
+          <div>
+            <button onClick={this.createData}>create</button>
           </div>
         </div>
     </div>

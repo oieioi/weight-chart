@@ -1,19 +1,28 @@
 var express = require('express');
 var app = module.exports.app = exports.app = express();
-
+var mongoose = require('mongoose');
+var Puid = require('puid');
+mongoose.connect('mongodb://localhost:27017/test');
 
 app.post('/api/bulk', function(req, res){
+  var puid = new Puid();
+  var id = puid.generate();
+  var bulkData = mongoose.model(id, req.body);
   console.log('POST');
-  res.end();
+  res.json({id: id}).end();
 });
 
 app.get('/api/bulk/:id', function(req, res){
   console.log('GET:' + req.params.id);
-  res.end();
+  var id = req.params.id;
+  var bulkData = mongoose.get(id);
+  res.json(bulkData).end();
 });
 
 app.put('/api/bulk/:id', function(req, res){
   console.log('PUT:' + req.params.id);
+  var id = req.params.id;
+  mongoose.model(id, req.body);
   res.end();
 });
 
