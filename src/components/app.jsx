@@ -1,6 +1,7 @@
 import {Line} from 'react-chartjs';
 import React from 'react/addons';
 import ma from './moving-average';
+import sa from 'superagent';
 
 export default React.createClass({
   mixins: [React.addons.LinkedStateMixin],
@@ -27,6 +28,7 @@ export default React.createClass({
       width: 1200,
       height: 500,
       per: 7,
+      hash: '',
       data: {
         labels: [],
         datasets: [
@@ -112,6 +114,44 @@ export default React.createClass({
     });
   },
 
+  createData() {
+    sa.post('/api/bulk')
+    .send(this.state.value)
+    .end((err, res)=>{
+      if (err) {
+        console.log(err);
+        return;
+      }
+      console.log(res);
+    });
+
+  },
+
+  updateData(){
+    sa.put('/api/bulk/' + this.state.hash)
+    .send(this.state.value)
+    .end((err, res)=>{
+      if (err) {
+        console.log(err);
+        return;
+      }
+      console.log(res);
+    });
+
+  },
+
+  fetchData() {
+    sa.get('/api/bulk/' + this.state.hash)
+    .end((err, res)=>{
+      if (err) {
+        console.log(err);
+        return;
+      }
+      console.log(res);
+    });
+
+  },
+
   render(){
     var options = {
       animation: false,
@@ -147,6 +187,14 @@ export default React.createClass({
           <div>
             <label>per: <input type="text" valueLink={this.linkState('per')} /></label>
             <button onClick={this.setAverage}>average</button>
+          </div>
+          <div>
+            <label>hash: <input type="text" valueLink={this.linkState('hash')} /></label>
+            <button onClick={this.updateData}>update</button>
+            <button onClick={this.fetchData}>fetch</button>
+          </div>
+          <div>
+            <button onClick={this.createData}>create</button>
           </div>
         </div>
     </div>

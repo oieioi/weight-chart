@@ -5,6 +5,7 @@ Dependencies
 ------------
 
 - node
+- mongodb
 
 Usage
 -----
